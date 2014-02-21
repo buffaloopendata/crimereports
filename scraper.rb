@@ -1,5 +1,11 @@
 require 'open-uri'
 require 'JSON'
+require 'date'
+require 'mongo'
+include Mongo
+
+db=MongoClient.new('localhost').db('citydata')
+@coll=db['crime']
 
 def get_tiles
   tiles=[]
@@ -36,3 +42,15 @@ def get_reports(row, column, start_date, end_date, incident_type_ids="100,104,98
 end
 
 
+def get_crime_for_year year
+  tiles=get_tiles
+  totalcrimes=[]
+  for Date.new(2012, 01, 01).upto(Date.new(2012, 01, 30)) do |date|
+    sleep 1.0
+    crimes=get_crime_on_date(tiles,date.to_s.gsub('-','/'))
+    for crime in crimes
+      #push to mongo
+      @coll.insert crime
+    end 
+  end
+end
