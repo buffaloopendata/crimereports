@@ -11,15 +11,22 @@ def get_tiles
   return tiles
 end
 
-def get_tiles_on_date(tiles, date)
+def get_crime_on_date(tiles, date)
   results=[]
+  crimes=[]
   for tile in tiles 
     row=tile[0]
     column=tile[1]
     obj = JSON.parse get_reports(row,column,date,date)
     results.push(obj)
   end
-  return results
+
+  for result in results
+    for crime in result['crimes']
+      crimes.push(crime)
+    end
+  end
+  return crimes
 end
 
 def get_reports(row, column, start_date, end_date, incident_type_ids="100,104,98,103,99,101,170,8,97,148,9,149,15", zoom='13')
