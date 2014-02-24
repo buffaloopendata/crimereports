@@ -1,5 +1,6 @@
+require 'rubygems'
 require 'open-uri'
-require 'JSON'
+require 'json'
 require 'date'
 require 'mongo'
 include Mongo
@@ -18,6 +19,7 @@ def get_tiles
 end
 
 def get_crime_on_date(tiles, date)
+  puts date
   results=[]
   crimes=[]
   for tile in tiles 
@@ -25,6 +27,7 @@ def get_crime_on_date(tiles, date)
     column=tile[1]
     obj = JSON.parse get_reports(row,column,date,date)
     results.push(obj)
+    puts obj
   end
 
   for result in results
@@ -44,9 +47,9 @@ end
 
 def get_crime_for_year year
   tiles=get_tiles
-  totalcrimes=[]
-  for Date.new(2012, 01, 01).upto(Date.new(2012, 01, 30)) do |date|
+  Date.new(year.to_i, 01, 01).upto(Date.new(year.to_i, 12, 31)) do |date|
     sleep 1.0
+    puts date
     crimes=get_crime_on_date(tiles,date.to_s.gsub('-','/'))
     for crime in crimes
       #push to mongo
