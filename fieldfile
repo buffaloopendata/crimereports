@@ -1,0 +1,17 @@
+id
+ccn
+incident_date_time
+time_spread
+org_id
+org_name
+tipsoft_id
+incident_type_id
+incident_type_name
+incident_type_pinnable
+lng
+lat
+public_narrative
+processing_level
+address
+description
+agency_page_link
